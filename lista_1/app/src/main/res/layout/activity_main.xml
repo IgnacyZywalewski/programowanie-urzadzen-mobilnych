@@ -1,72 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <TextView
+        android:id="@+id/question_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="80sp"
         android:text="Pytanie: x/10 "
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="100sp"
+        android:textSize="45sp"
         android:textStyle="bold" />
 
-    <ProgressBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_marginTop="400dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:progress="25" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="25sp"
+        android:layout_marginTop="30sp"
+        android:layout_marginRight="25sp"
+        android:indeterminate="false"
+        android:progress="25"
+        android:max="100"/>
 
     <TextView
+        android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="30sp"
+        android:layout_marginEnd="20sp"
 
         android:background="@color/cardview_shadow_start_color"
+        android:paddingLeft="10sp"
+        android:paddingTop="10sp"
+        android:paddingRight="10sp"
 
-        android:text="Tutaj bedzie pytanie"
+        android:paddingBottom="10sp"
+        android:text="Pytanie"
         android:textColor="@color/black"
-        android:textSize="60sp" />
+        android:textSize="30sp" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width=""
-        android:layout_height="">
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30sp">
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
         <RadioGroup
-            android:layout_width=""
-            android:layout_height="">
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30sp">
 
             <RadioButton
-                android:layout_width=""
-                android:layout_height="" />
+                android:id="@+id/button_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25sp"
+                android:background="@color/cardview_shadow_start_color"
+                android:padding="10sp"
+                android:text="Odpowiedź 1"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
             <RadioButton
-                android:layout_width=""
-                android:layout_height="" />
+                android:id="@+id/button_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25sp"
+                android:padding="10sp"
+                android:background="@color/cardview_shadow_start_color"
+                android:text="Odpowiedź 2"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
             <RadioButton
-                android:layout_width=""
-                android:layout_height="" />
+                android:id="@+id/button_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25sp"
+                android:padding="10sp"
+                android:background="@color/cardview_shadow_start_color"
+                android:text="Odpowiedź 3"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
             <RadioButton
-                android:layout_width=""
-                android:layout_height="" />
+                android:id="@+id/button_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10sp"
+                android:background="@color/cardview_shadow_start_color"
+                android:text="Odpowiedź 4"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
         </RadioGroup>
 
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:layout_width=""
-        android:layout_height=""/>
+    <Space
+        android:layout_width="0sp"
+        android:layout_height="0sp"
+        android:layout_weight="1" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/button_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginBottom="70sp"
+        android:background="@color/cardview_shadow_start_color"
+        android:text="Następne"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
+
+</LinearLayout>
