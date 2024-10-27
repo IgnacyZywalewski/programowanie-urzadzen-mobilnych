@@ -7,10 +7,8 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,24 +19,32 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private final String[] questions = {
-            "Pytanie 1", "Pytanie 2", "Pytanie 3", "Pytanie 4", "Pytanie 5",
-            "Pytanie 6", "Pytanie 7", "Pytanie 8", "Pytanie 9", "Pytanie 10"
+            "Jednostką siły w układzie SI jest:",
+            "Wzór na prędkość w ruchu jednostajnym prostoliniowym to:",
+            "Czym jest praca w fizyce?",
+            "Jakie jest przyspieszenie ziemskie na powierzchni Ziemi?",
+            "Co to jest pętla w programowaniu?",
+            "Co oznacza skrót RAM?",
+            "Która z poniższych jednostek jest największa?",
+            "Który z poniższych języków programowania jest językiem niskiego poziomu?",
+            "W jakim systemie liczbowym działają komputery?",
+            "Co oznacza skrót HTML?"
     };
 
     private final String[][] answers = {
-            {"Odpowiedź 1a", "Odpowiedź 1b", "Odpowiedź 1c", "Odpowiedź 1d"},
-            {"Odpowiedź 2a", "Odpowiedź 2b", "Odpowiedź 2c", "Odpowiedź 2d"},
-            {"Odpowiedź 3a", "Odpowiedź 3b", "Odpowiedź 3c", "Odpowiedź 3d"},
-            {"Odpowiedź 4a", "Odpowiedź 4b", "Odpowiedź 4c", "Odpowiedź 4d"},
-            {"Odpowiedź 5a", "Odpowiedź 5b", "Odpowiedź 5c", "Odpowiedź 5d"},
-            {"Odpowiedź 6a", "Odpowiedź 6b", "Odpowiedź 6c", "Odpowiedź 6d"},
-            {"Odpowiedź 7a", "Odpowiedź 7b", "Odpowiedź 7c", "Odpowiedź 7d"},
-            {"Odpowiedź 8a", "Odpowiedź 8b", "Odpowiedź 8c", "Odpowiedź 8d"},
-            {"Odpowiedź 9a", "Odpowiedź 9b", "Odpowiedź 9c", "Odpowiedź 9d"},
-            {"Odpowiedź 10a", "Odpowiedź 10b", "Odpowiedź 10c", "Odpowiedź 10d"}
+            {"Kilogram", "Niuton", "Dżul", "Wat"},
+            {"v = a ⋅ t", "v = s / t", "v = m ⋅ g", "v = t / s"},
+            {"Wynikiem siły działającej na ciało na odcinku drogi", "Objętością ciała", "Ilością ciepła w procesie", "Czasem trwania ruchu"},
+            {"8,9 m/s²", "10,8 m/s²", "9,8 m/s²", "11,8 m/s²"},
+            {"Funkcja do przechowywania danych", "Instrukcja umożliwiająca wielokrotne wykonanie bloku kodu", "Typ danych", "Kod źródłowm programu"},
+            {"Read-Only Memory", "Random Access Memory", "Random Action Module", "Remote Access Memory"},
+            {"Gigabajt", "Megabajt", "Bajt", "Kilobajt"},
+            {"Python", "C++", "Java", "Assembler"},
+            {"Dziesiętnym", "Binarnym", "Ósemkowym", "Szesnastkowym"},
+            {"Hyperlink and Text Markup Language", "Hyper Transfer Markup Language", "Hyper Text Markup Language", "High Text Markup Language"}
     };
 
-    private final int[] correctAnswers = {0, 1, 2, 3, 0, 1, 2, 3, 0, 1};
+    private final int[] correctAnswers = {1, 1, 0, 2, 1, 1, 0, 3, 1, 2};
     private int currentQuestionIndex = 0;
     private int score = 0;
 
@@ -100,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showResult() {
-        questionText.setVisibility(View.GONE);
-        radioGroup.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
+        questionText.setVisibility(View.INVISIBLE);
+        radioGroup.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
 
         questionCounter.setText("Gratulacje");
 
