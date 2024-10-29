@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView questionText, questionCounter, result;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             "Co to jest pętla w programowaniu?",
             "Co oznacza skrót RAM?",
             "Która z poniższych jednostek jest największa?",
-            "Który z poniższych języków programowania jest językiem niskiego poziomu?",
+            "Który z poniższych języków programowania jest językiem najniższego poziomu?",
             "W jakim systemie liczbowym działają komputery?",
             "Co oznacza skrót HTML?"
     };
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             {"v = a ⋅ t", "v = s / t", "v = m ⋅ g", "v = t / s"},
             {"Wynikiem siły działającej na ciało na odcinku drogi", "Objętością ciała", "Ilością ciepła w procesie", "Czasem trwania ruchu"},
             {"8,9 m/s²", "10,8 m/s²", "9,8 m/s²", "11,8 m/s²"},
-            {"Funkcja do przechowywania danych", "Instrukcja umożliwiająca wielokrotne wykonanie bloku kodu", "Typ danych", "Kod źródłowm programu"},
+            {"Funkcja do przechowywania danych", "Instrukcja umożliwiająca wielokrotne wykonanie bloku kodu", "Typ danych", "Kod źródłowy programu"},
             {"Read-Only Memory", "Random Access Memory", "Random Action Module", "Remote Access Memory"},
             {"Gigabajt", "Megabajt", "Bajt", "Kilobajt"},
             {"Python", "C++", "Java", "Assembler"},
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private final int[] correctAnswers = {1, 1, 0, 2, 1, 1, 0, 3, 1, 2};
     private int currentQuestionIndex = 0;
     private int score = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
