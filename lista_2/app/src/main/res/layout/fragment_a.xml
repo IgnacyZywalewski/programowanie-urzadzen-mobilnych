@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FragmentA">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="100sp"
+        android:text="Witaj"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/logButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zaloguj"
+        android:textSize="30sp"
+        android:layout_marginTop="165sp"
+        android:layout_marginLeft="15sp"
+        android:layout_marginRight="15sp">
+    </Button>
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zarejestruj"
+        android:textSize="30sp"
+        android:layout_marginTop="15sp"
+        android:layout_marginLeft="15sp"
+        android:layout_marginRight="15sp">
+    </Button>
+
+</LinearLayout>
