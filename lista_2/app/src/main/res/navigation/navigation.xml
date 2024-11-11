@@ -35,7 +35,7 @@
         android:label="FragmentC" >
         <action
             android:id="@+id/action_fragmentC_to_fragmentD"
-            app:destination="@id/fragmentD" />
+            app:destination="@id/fragmentD"/>
         <action
             android:id="@+id/action_fragmentC_to_fragmentB"
             app:destination="@id/fragmentB" />

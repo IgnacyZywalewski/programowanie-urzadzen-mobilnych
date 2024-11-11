@@ -26,7 +26,7 @@
         android:layout_marginTop="120sp"
         android:layout_marginLeft="10sp"
         android:layout_marginRight="10sp"
-        android:text="login"
+        android:hint="login"
         android:textSize="25sp"
         android:padding="20sp">
     </EditText>
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="hasło"
+        android:hint="hasło"
         android:textSize="25sp"
         android:padding="20sp"
         android:layout_marginLeft="10sp"

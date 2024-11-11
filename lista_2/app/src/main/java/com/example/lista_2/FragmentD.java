@@ -21,6 +21,12 @@ public class FragmentD extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDBinding.inflate(inflater);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String username = bundle.getString("username");
+            binding.username.setText("Witaj\n" + username);
+        }
+
         binding.logoutButton.setOnClickListener(view -> {
             NavDirections action = FragmentDDirections.actionFragmentDToFragmentA();
             Navigation.findNavController(requireView()).navigate(action);
