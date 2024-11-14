@@ -20,7 +20,7 @@ public class FragmentB extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentBBinding.inflate(inflater);
-
+        binding.registerButton.setEnabled(false);
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -38,7 +38,6 @@ public class FragmentB extends Fragment {
         binding.registerLogin.addTextChangedListener(textWatcher);
         binding.registerPassword.addTextChangedListener(textWatcher);
         binding.registerPaswordRepeate.addTextChangedListener(textWatcher);
-
 
         binding.registerButton.setOnClickListener(view -> {
             String login = binding.registerLogin.getText().toString();
