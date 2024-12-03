@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public List<ExerciseList> generateExerciseLists(int count) {
         Random random = new Random();
         String[] subjects = {"Matematyka", "Pum", "Fizyka", "Elektronika", "Algorytmy"};
-        String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac urna vitae orci.";
+        String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sodales, metus a sollicitudin pharetra, sapien neque auctor nibh, in eleifend.";
 
         Map<String, Integer> subjectListCounters = new HashMap<>();
         for (String subject : subjects) {
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         List<ExerciseList> lists = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            String subject = new String(subjects[random.nextInt(subjects.length)]);
+            String subject = subjects[random.nextInt(subjects.length)];
 
             int listNumber = subjectListCounters.get(subject) + 1;
             subjectListCounters.put(subject, listNumber);

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.example.lista_3.databinding.FragmentABinding;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class FragmentA extends Fragment {
