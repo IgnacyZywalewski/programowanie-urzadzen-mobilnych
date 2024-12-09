@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:2:1-26:12
-INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:2:1-26:12
-INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:2:1-26:12
-INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:2:1-26:12
+ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:2:1-28:12
+INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:2:1-28:12
+INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:2:1-28:12
+INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:2:1-28:12
 MERGED from [androidx.compose.material3:material3-android:1.2.1] C:\Users\Ignacy\.gradle\caches\transforms-4\86b1bf36af0d3e6dc7c1a08b30e8c766\transformed\material3-release\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.compose.material:material-android:1.6.6] C:\Users\Ignacy\.gradle\caches\transforms-4\a628d3a4dc3c6c07a8f422dc4d982fe1\transformed\material-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-icons-core-android:1.6.6] C:\Users\Ignacy\.gradle\caches\transforms-4\2d5fde2598f814f4aee7c99ea289cdf8\transformed\material-icons-core-release\AndroidManifest.xml:2:1-7:12
@@ -59,8 +59,8 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\Ignacy\
 	xmlns:android
 		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:5:5-24:19
-INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:5:5-24:19
+ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:5:5-26:19
+INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:5:5-26:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.6.6] C:\Users\Ignacy\.gradle\caches\transforms-4\e772edf0ac0622073de03e8677607bdc\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.6.6] C:\Users\Ignacy\.gradle\caches\transforms-4\e772edf0ac0622073de03e8677607bdc\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-test-manifest:1.6.6] C:\Users\Ignacy\.gradle\caches\transforms-4\7f887b412b7f6a5b4c866a51958ff9df\transformed\ui-test-manifest-1.6.6\AndroidManifest.xml:22:5-26:19
@@ -89,6 +89,8 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Ig
 		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:8:9-54
 	android:roundIcon
 		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:11:9-54
+	tools:targetApi
+		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:14:9-29
 	android:icon
 		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:9:9-43
 	android:allowBackup
@@ -98,23 +100,25 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Ig
 	android:dataExtractionRules
 		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:7:9-65
 activity#com.example.lista_4.MainActivity
-ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:14:9-23:20
+ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:15:9-25:20
+	android:label
+		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:18:13-45
 	android:exported
-		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:16:13-36
+		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:17:13-36
 	android:theme
-		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:17:13-49
+		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:19:13-49
 	android:name
-		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:15:13-41
+		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:16:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:18:13-22:29
+ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:20:13-24:29
 action#android.intent.action.MAIN
-ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:19:17-69
+ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:21:17-69
 	android:name
-		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:19:25-66
+		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:21:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:21:17-77
+ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:23:17-77
 	android:name
-		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:21:27-74
+		ADDED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml:23:27-74
 uses-sdk
 INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Studia\5\pum\lista_4\app\src\main\AndroidManifest.xml
