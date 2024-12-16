@@ -55,8 +55,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun QuizApp(questions: List<String>, answers: List<List<String>>, correctAnswers: List<Int>) {
-    var currentQuestionIndex by remember { mutableStateOf(0) }
-    var score by remember { mutableStateOf(0) }
+    var currentQuestionIndex by remember { mutableIntStateOf(0) }
+    var score by remember { mutableIntStateOf(0) }
     var selectedOption by remember { mutableStateOf<Int?>(null) }
     var showResult by remember { mutableStateOf(false) }
 
@@ -183,7 +183,7 @@ fun ResultScreen(score: Int, totalQuestions: Int, onRestart: () -> Unit) {
     ) {
         Text(
             text = "Gratulacje!",
-            fontSize = 28.sp,
+            fontSize = 30.sp,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Text(
