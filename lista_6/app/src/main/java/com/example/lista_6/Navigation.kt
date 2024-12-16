@@ -26,7 +26,7 @@ sealed class Screens(val route: String) {
     data object GradesScreen : Screens("first")
     data object TaskScreen : Screens("second") {
         fun createRoute(subject: String, listNumber: Int) =
-            "task_screen/$subject/$listNumber"
+            "task/$subject/$listNumber"
     }
 }
 
@@ -81,7 +81,6 @@ fun BottomMenu(navController: NavHostController){
     val screens = listOf(
         BottomBar.Home, BottomBar.First
     )
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -70,13 +71,17 @@ fun ExerciseListScreen(navController: NavHostController) {
 }
 
 
-
 @Composable
 fun GradesScreen(navController: NavHostController) {
     val exerciseLists = ExerciseData.getExerciseLists()
-    val subjects = exerciseLists.map { it.subject }.distinct()
 
-    Column (modifier = Modifier.fillMaxSize()) {
+    val subjectStats = exerciseLists.groupBy { it.subject }.map { (subject, lists) ->
+        val averageGrade = lists.map { it.grade }.average()
+        val listCount = lists.size
+        SubjectStats(subject, averageGrade, listCount)
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
         Text(
             text = "Oceny",
             fontSize = 40.sp,
@@ -84,6 +89,7 @@ fun GradesScreen(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 70.dp, start = 160.dp)
+                .align(Alignment.CenterHorizontally)
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -93,7 +99,7 @@ fun GradesScreen(navController: NavHostController) {
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(subjects) { subject ->
+            items(subjectStats) { subjectStat ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -103,16 +109,33 @@ fun GradesScreen(navController: NavHostController) {
                             )
                         }
                 ) {
-                    Text(
-                        text = subject,
-                        fontSize = 24.sp,
-                        modifier = Modifier.padding(16.dp)
-                    )
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = subjectStat.subject,
+                            fontSize = 25.sp
+                        )
+                        Text(
+                            text = "Średnia ocen: %.2f".format(subjectStat.averageGrade),
+                            fontSize = 20.sp
+                        )
+                        Text(
+                            text = "Liczba list: ${subjectStat.listCount}",
+                            fontSize = 20.sp
+                        )
+                    }
                 }
             }
         }
     }
 }
+
+// Data class for holding statistics per subject
+data class SubjectStats(
+    val subject: String,
+    val averageGrade: Double,
+    val listCount: Int
+)
+
 
 
 @Composable
@@ -125,21 +148,25 @@ fun TaskScreen(subject: String, listNumber: Int) {
             .padding(16.dp)
     ) {
         Text(
-            text = "$subject\nLista $listNumber",
-            fontSize = 30.sp,
-            modifier = Modifier.padding(bottom = 16.dp)
+            text = "$subject Lista $listNumber",
+            fontSize = 35.sp,
+            modifier = Modifier.padding(top = 60.dp, start = 100.dp)
         )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxSize()
         ) {
-            items(exercises) { exercise ->
+            itemsIndexed(exercises) { index, exercise ->
                 Card(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Text(text = exercise.content, fontSize = 18.sp)
-                        Text(text = "${exercise.points} pkt", fontSize = 16.sp)
+                        Text(text = "Zadanie ${index + 1}", fontSize = 25.sp)
+                        Text(text = exercise.content, fontSize = 20.sp)
+                        Text(text = "${exercise.points} pkt", fontSize = 20.sp)
                     }
                 }
             }
