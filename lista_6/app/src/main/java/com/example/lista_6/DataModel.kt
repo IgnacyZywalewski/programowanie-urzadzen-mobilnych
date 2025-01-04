@@ -11,3 +11,10 @@ data class ExerciseList(
     val grade: Double,
     val listNumber: Int
 )
+
+data class SubjectStats(
+    val subject: String,
+    val averageGrade: Double,
+    val listCount: Int
+)
+
