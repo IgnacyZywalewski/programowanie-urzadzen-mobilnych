@@ -55,6 +55,8 @@ dependencies {
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.runtime.compose)
     implementation (libs.androidx.room.runtime)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
     annotationProcessor (libs.androidx.room.compiler)
     kapt (libs.androidx.room.compiler)
     implementation (libs.androidx.room.ktx)
@@ -74,6 +76,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 
 }
