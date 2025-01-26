@@ -61,10 +61,6 @@ dependencies {
     annotationProcessor (libs.androidx.room.compiler)
     kapt (libs.androidx.room.compiler)
     implementation (libs.androidx.room.ktx)
-    implementation("androidx.compose.material3:material3:1.3.1")
-    implementation("androidx.compose.ui:ui:1.7.6")
-    implementation("androidx.compose.ui:ui-tooling:1.7.6")
-    implementation("androidx.compose.material3:material3-window-size-class:1.1.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
