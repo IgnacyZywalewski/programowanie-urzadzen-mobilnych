@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -80,26 +82,113 @@ fun Navigation(viewModel: TaskViewModel) {
     }
 }
 
+
 @SuppressLint("DefaultLocale")
 @Composable
 fun TaskListScreen(tasks: List<Task>, onEdit: (Task) -> Unit, onAdd: () -> Unit) {
+
+    val originalTasks = remember { tasks }
+    var sortedTasks by remember { mutableStateOf(tasks) }
+    var isSortMenuExpanded by remember { mutableStateOf(false) }
+    var selectedSortOption by remember { mutableStateOf("Sort by") }
+
+    fun sortTasks(option: String) {
+        sortedTasks = when (option) {
+            "Sort by" -> originalTasks
+            "Date (Earliest)" -> tasks.sortedBy { it.date }
+            "Date (Latest)" -> tasks.sortedByDescending { it.date }
+            "Priority (Lowest)" -> tasks.sortedBy { it.priority }
+            "Priority (Highest)" -> tasks.sortedByDescending { it.priority }
+            else -> tasks
+        }
+    }
+
     Scaffold(
         topBar = {
-            Text(
-                text = "Tasks to do",
-                fontSize = 40.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
+            Column(
+                Modifier
                     .fillMaxWidth()
                     .padding(top = 50.dp, bottom = 20.dp)
-            )
+            ) {
+                Text(
+                    text = "Tasks to do",
+                    fontSize = 40.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(Modifier.height(16.dp))
+
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .wrapContentSize(Alignment.TopEnd)
+                ) {
+                    Button(
+                        onClick = { isSortMenuExpanded = true },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = selectedSortOption,
+                            fontSize = 25.sp
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = isSortMenuExpanded,
+                        onDismissRequest = { isSortMenuExpanded = false },
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Default", fontSize = 20.sp) },
+                            onClick = {
+                                selectedSortOption = "Sort by"
+                                sortTasks(selectedSortOption)
+                                isSortMenuExpanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Date (Earliest)", fontSize = 20.sp) },
+                            onClick = {
+                                selectedSortOption = "Date (Earliest)"
+                                sortTasks(selectedSortOption)
+                                isSortMenuExpanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Date (Latest)", fontSize = 20.sp) },
+                            onClick = {
+                                selectedSortOption = "Date (Latest)"
+                                sortTasks(selectedSortOption)
+                                isSortMenuExpanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Priority (Lowest)", fontSize = 20.sp) },
+                            onClick = {
+                                selectedSortOption = "Priority (Lowest)"
+                                sortTasks(selectedSortOption)
+                                isSortMenuExpanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Priority (Highest)", fontSize = 20.sp) },
+                            onClick = {
+                                selectedSortOption = "Priority (Highest)"
+                                sortTasks(selectedSortOption)
+                                isSortMenuExpanded = false
+                            }
+                        )
+                    }
+                }
+            }
         },
         content = { paddingValues ->
             LazyColumn(
                 modifier = Modifier.padding(paddingValues),
             ) {
-                items(tasks) { task ->
+                items(sortedTasks) { task ->
                     Column(
                         Modifier
                             .fillMaxWidth()
@@ -118,8 +207,7 @@ fun TaskListScreen(tasks: List<Task>, onEdit: (Task) -> Unit, onAdd: () -> Unit)
                                 fontSize = 30.sp
                             )
                         }
-                        if(task.content.isNotBlank())
-                        {
+                        if (task.content.isNotBlank()) {
                             Spacer(Modifier.height(16.dp))
                             Text(
                                 text = task.content,
@@ -132,7 +220,6 @@ fun TaskListScreen(tasks: List<Task>, onEdit: (Task) -> Unit, onAdd: () -> Unit)
                             fontSize = 25.sp,
                         )
                     }
-
                 }
             }
         },
