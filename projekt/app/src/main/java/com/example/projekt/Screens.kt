@@ -6,11 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,15 +20,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,10 +87,63 @@ fun Navigation(viewModel: TaskViewModel) {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DateRangePickerModal(
+    onDateRangeSelected: (Pair<Long?, Long?>) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val dateRangePickerState = rememberDateRangePickerState()
+
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onDateRangeSelected(
+                        Pair(
+                            dateRangePickerState.selectedStartDateMillis,
+                            dateRangePickerState.selectedEndDateMillis
+                        )
+                    )
+                    onDismiss()
+                }
+            ) {
+                Text("OK", fontSize = 20.sp)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel", fontSize = 20.sp)
+            }
+        }
+    ) {
+        DateRangePicker(
+            state = dateRangePickerState,
+            title = {
+                Text(
+                    text = "Select date range",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    textAlign = TextAlign.Center
+                )
+            },
+            showModeToggle = false,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(450.dp)
+                .padding(horizontal = 16.dp)
+        )
+    }
+}
+
+
 @SuppressLint("DefaultLocale")
 @Composable
 fun TaskListScreen(tasks: List<Task>, onEdit: (Task) -> Unit, onAdd: () -> Unit) {
-
     val originalTasks = remember { tasks }
     var isSortMenuExpanded by remember { mutableStateOf(false) }
     var selectedSortOption by remember { mutableStateOf("Sort by") }
@@ -98,11 +153,17 @@ fun TaskListScreen(tasks: List<Task>, onEdit: (Task) -> Unit, onAdd: () -> Unit)
     var isPrioritySubMenuExpanded by remember { mutableStateOf(false) }
     var selectedPriority by remember { mutableStateOf<Int?>(null) }
 
+    var showDatePicker by remember { mutableStateOf(false) }
+    var startDate by remember { mutableStateOf<Date?>(null) }
+    var endDate by remember { mutableStateOf<Date?>(null) }
+
+
     fun applyFiltersAndSorting() {
-        val baseTasks = if (selectedPriority == null) {
-            originalTasks
-        } else {
-            originalTasks.filter { it.priority == selectedPriority }
+        val baseTasks = originalTasks.filter { task ->
+            val isWithinPriority = selectedPriority == null || task.priority == selectedPriority
+            val isWithinDateRange = (startDate == null || task.date >= startDate) &&
+                    (endDate == null || task.date <= endDate)
+            isWithinPriority && isWithinDateRange
         }
 
         filteredTasks = when (selectedSortOption) {
@@ -223,22 +284,22 @@ fun TaskListScreen(tasks: List<Task>, onEdit: (Task) -> Unit, onAdd: () -> Unit)
                                 text = { Text("Clear Filter", fontSize = 20.sp) },
                                 onClick = {
                                     selectedPriority = null
+                                    startDate = null
+                                    endDate = null
                                     applyFiltersAndSorting()
                                     isFilterMenuExpanded = false
                                 }
                             )
 
-                            Box(
-
-                            ){
+                            Box()
+                            {
                                 DropdownMenuItem(
                                     text = { Text("Priority 1-10", fontSize = 20.sp) },
                                     onClick = { isPrioritySubMenuExpanded = true }
                                 )
-
                                 DropdownMenu(
                                     expanded = isPrioritySubMenuExpanded,
-                                    onDismissRequest = { isPrioritySubMenuExpanded = false }
+                                    onDismissRequest = { isPrioritySubMenuExpanded = false },
                                 ) {
                                     (1..10).forEach { priority ->
                                         DropdownMenuItem(
@@ -254,14 +315,33 @@ fun TaskListScreen(tasks: List<Task>, onEdit: (Task) -> Unit, onAdd: () -> Unit)
                                 }
                             }
 
-
                             DropdownMenuItem(
                                 text = { Text("Date (range)", fontSize = 20.sp) },
                                 onClick = {
                                     selectedPriority = null
                                     isFilterMenuExpanded = false
-                                }
+                                } ,
+                                trailingIcon = {
+                                    IconButton(onClick = { showDatePicker = true }) {
+                                        Icon(imageVector = Icons.Default.DateRange, contentDescription = "Select date")
+                                    }
+                                },
                             )
+
+                            if (showDatePicker) {
+                                DateRangePickerModal(
+                                    onDateRangeSelected = { dateRange ->
+                                        val (startMillis, endMillis) = dateRange
+
+                                        if (startMillis != null && endMillis != null) {
+                                            startDate = Date(startMillis)
+                                            endDate = Date(endMillis)
+                                            applyFiltersAndSorting()
+                                        }
+                                    },
+                                    onDismiss = { showDatePicker = false }
+                                )
+                            }
                         }
                     }
                 }
@@ -413,41 +493,44 @@ fun EditTaskScreen(task: Task?, onSave: (Task?) -> Unit, onDelete: (Task?) -> Un
                 )
 
                 if (showDatePicker) {
-                    Popup(
+                    DatePickerDialog(
                         onDismissRequest = { showDatePicker = false },
-                        alignment = Alignment.TopStart
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .offset(y = 64.dp)
-                                .shadow(elevation = 4.dp)
-                                .background(MaterialTheme.colorScheme.surface)
-                                .padding(20.dp)
-                                .padding(bottom = 60.dp)
-                        ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                DatePicker(state = datePickerState)
-
-                                Button(
-                                    onClick = {
-                                        datePickerState.selectedDateMillis?.let { millis ->
-                                            date = Date(millis)
-                                            showDatePicker = false
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .align(Alignment.CenterHorizontally)
-                                        .fillMaxWidth()
-                                ) {
-                                    Text(text = "Confirm", fontSize = 30.sp)
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    datePickerState.selectedDateMillis?.let { millis ->
+                                        date = Date(millis)
+                                    }
+                                    showDatePicker = false
                                 }
+                            ) {
+                                Text("OK", fontSize = 20.sp)
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showDatePicker = false }) {
+                                Text("Cancel", fontSize = 20.sp)
                             }
                         }
+                    ) {
+                        DatePicker(
+                            state = datePickerState,
+                            title = {
+                                Text(
+                                    text = "Select date",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp),
+                                    textAlign = TextAlign.Center
+                                )
+                            },
+                            showModeToggle = false,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(450.dp)
+                        )
                     }
                 }
             }
@@ -564,43 +647,45 @@ fun AddTaskScreen(onSave: (String, String, Int, Date) -> Unit) {
                 )
 
                 if (showDatePicker) {
-                    Popup(
+                    DatePickerDialog(
                         onDismissRequest = { showDatePicker = false },
-                        alignment = Alignment.TopStart
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .offset(y = 64.dp)
-                                .shadow(elevation = 4.dp)
-                                .background(MaterialTheme.colorScheme.surface)
-                                .padding(20.dp)
-                                .padding(bottom = 60.dp)
-                        ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                DatePicker(state = datePickerState)
-
-                                Button(
-                                    onClick = {
-                                        datePickerState.selectedDateMillis?.let { millis ->
-                                            date = convertMillisToString(millis)
-                                            showDatePicker = false
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .align(Alignment.CenterHorizontally)
-                                        .fillMaxWidth()
-                                ) {
-                                    Text(text = "Confirm", fontSize = 30.sp)
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    datePickerState.selectedDateMillis?.let { millis ->
+                                        date = convertMillisToString(millis)
+                                    }
+                                    showDatePicker = false
                                 }
+                            ) {
+                                Text("OK", fontSize = 20.sp)
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showDatePicker = false }) {
+                                Text("Cancel", fontSize = 20.sp)
                             }
                         }
+                    ) {
+                        DatePicker(
+                            state = datePickerState,
+                            title = {
+                                Text(
+                                    text = "Select date",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp),
+                                    textAlign = TextAlign.Center
+                                )
+                            },
+                            showModeToggle = false,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(450.dp)
+                        )
                     }
-
                 }
             }
         },
@@ -630,6 +715,6 @@ fun formatDateToString(date: Date): String {
 
 fun convertMillisToString(millis: Long): String {
     val date = Date(millis)
-    val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    val formatter = SimpleDateFormat("EEEE, dd-MM-yyyy", Locale.getDefault())
     return formatter.format(date)
 }
