@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,20 +90,30 @@ fun Navigation(viewModel: TaskViewModel) {
 fun TaskListScreen(tasks: List<Task>, onEdit: (Task) -> Unit, onAdd: () -> Unit) {
 
     val originalTasks = remember { tasks }
-    var sortedTasks by remember { mutableStateOf(tasks) }
     var isSortMenuExpanded by remember { mutableStateOf(false) }
     var selectedSortOption by remember { mutableStateOf("Sort by") }
 
-    fun sortTasks(option: String) {
-        sortedTasks = when (option) {
-            "Sort by" -> originalTasks
-            "Date (Earliest)" -> tasks.sortedBy { it.date }
-            "Date (Latest)" -> tasks.sortedByDescending { it.date }
-            "Priority (Lowest)" -> tasks.sortedBy { it.priority }
-            "Priority (Highest)" -> tasks.sortedByDescending { it.priority }
-            else -> tasks
+    var filteredTasks by remember { mutableStateOf(tasks) }
+    var isFilterMenuExpanded by remember { mutableStateOf(false) }
+    var isPrioritySubMenuExpanded by remember { mutableStateOf(false) }
+    var selectedPriority by remember { mutableStateOf<Int?>(null) }
+
+    fun applyFiltersAndSorting() {
+        val baseTasks = if (selectedPriority == null) {
+            originalTasks
+        } else {
+            originalTasks.filter { it.priority == selectedPriority }
+        }
+
+        filteredTasks = when (selectedSortOption) {
+            "Date (Earliest)" -> baseTasks.sortedBy { it.date }
+            "Date (Latest)" -> baseTasks.sortedByDescending { it.date }
+            "Priority (Lowest)" -> baseTasks.sortedBy { it.priority }
+            "Priority (Highest)" -> baseTasks.sortedByDescending { it.priority }
+            else -> baseTasks
         }
     }
+
 
     Scaffold(
         topBar = {
@@ -120,75 +132,147 @@ fun TaskListScreen(tasks: List<Task>, onEdit: (Task) -> Unit, onAdd: () -> Unit)
 
                 Spacer(Modifier.height(16.dp))
 
-                Box(
+                Row(
                     Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .wrapContentSize(Alignment.TopEnd)
+                        .padding(horizontal = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Button(
-                        onClick = { isSortMenuExpanded = true },
-                        modifier = Modifier.fillMaxWidth()
+                    // Sortowanie
+                    Box(
+                        Modifier
+                            .weight(1f)
+                            .wrapContentSize(Alignment.TopEnd)
                     ) {
-                        Text(
-                            text = selectedSortOption,
-                            fontSize = 25.sp
-                        )
+                        Button(
+                            onClick = { isSortMenuExpanded = true },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = selectedSortOption,
+                                fontSize = 20.sp
+                            )
+                        }
+
+                        DropdownMenu(
+                            expanded = isSortMenuExpanded,
+                            onDismissRequest = { isSortMenuExpanded = false },
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Default", fontSize = 20.sp) },
+                                onClick = {
+                                    selectedSortOption = "Sort by"
+                                    applyFiltersAndSorting()
+                                    isSortMenuExpanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Date (Earliest)", fontSize = 20.sp) },
+                                onClick = {
+                                    selectedSortOption = "Date (Earliest)"
+                                    applyFiltersAndSorting()
+                                    isSortMenuExpanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Date (Latest)", fontSize = 20.sp) },
+                                onClick = {
+                                    selectedSortOption = "Date (Latest)"
+                                    applyFiltersAndSorting()
+                                    isSortMenuExpanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Priority (Lowest)", fontSize = 20.sp) },
+                                onClick = {
+                                    selectedSortOption = "Priority (Lowest)"
+                                    applyFiltersAndSorting()
+                                    isSortMenuExpanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Priority (Highest)", fontSize = 20.sp) },
+                                onClick = {
+                                    selectedSortOption = "Priority (Highest)"
+                                    applyFiltersAndSorting()
+                                    isSortMenuExpanded = false
+                                }
+                            )
+                        }
                     }
 
-                    DropdownMenu(
-                        expanded = isSortMenuExpanded,
-                        onDismissRequest = { isSortMenuExpanded = false },
+                    //Filtrowanie
+                    Box(
+                        Modifier
+                            .weight(1f)
+                            .wrapContentSize(Alignment.TopEnd)
                     ) {
-                        DropdownMenuItem(
-                            text = { Text("Default", fontSize = 20.sp) },
-                            onClick = {
-                                selectedSortOption = "Sort by"
-                                sortTasks(selectedSortOption)
-                                isSortMenuExpanded = false
+                        Button(
+                            onClick = { isFilterMenuExpanded = true },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(text = "Filter by", fontSize = 20.sp)
+                        }
+
+                        DropdownMenu(
+                            expanded = isFilterMenuExpanded,
+                            onDismissRequest = { isFilterMenuExpanded = false },
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Clear Filter", fontSize = 20.sp) },
+                                onClick = {
+                                    selectedPriority = null
+                                    applyFiltersAndSorting()
+                                    isFilterMenuExpanded = false
+                                }
+                            )
+
+                            Box(
+
+                            ){
+                                DropdownMenuItem(
+                                    text = { Text("Priority 1-10", fontSize = 20.sp) },
+                                    onClick = { isPrioritySubMenuExpanded = true }
+                                )
+
+                                DropdownMenu(
+                                    expanded = isPrioritySubMenuExpanded,
+                                    onDismissRequest = { isPrioritySubMenuExpanded = false }
+                                ) {
+                                    (1..10).forEach { priority ->
+                                        DropdownMenuItem(
+                                            text = { Text("Priority $priority", fontSize = 20.sp) },
+                                            onClick = {
+                                                selectedPriority = priority
+                                                applyFiltersAndSorting()
+                                                isPrioritySubMenuExpanded = false
+                                                isFilterMenuExpanded = false
+                                            }
+                                        )
+                                    }
+                                }
                             }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Date (Earliest)", fontSize = 20.sp) },
-                            onClick = {
-                                selectedSortOption = "Date (Earliest)"
-                                sortTasks(selectedSortOption)
-                                isSortMenuExpanded = false
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Date (Latest)", fontSize = 20.sp) },
-                            onClick = {
-                                selectedSortOption = "Date (Latest)"
-                                sortTasks(selectedSortOption)
-                                isSortMenuExpanded = false
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Priority (Lowest)", fontSize = 20.sp) },
-                            onClick = {
-                                selectedSortOption = "Priority (Lowest)"
-                                sortTasks(selectedSortOption)
-                                isSortMenuExpanded = false
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Priority (Highest)", fontSize = 20.sp) },
-                            onClick = {
-                                selectedSortOption = "Priority (Highest)"
-                                sortTasks(selectedSortOption)
-                                isSortMenuExpanded = false
-                            }
-                        )
+
+
+                            DropdownMenuItem(
+                                text = { Text("Date (range)", fontSize = 20.sp) },
+                                onClick = {
+                                    selectedPriority = null
+                                    isFilterMenuExpanded = false
+                                }
+                            )
+                        }
                     }
                 }
             }
         },
+
         content = { paddingValues ->
             LazyColumn(
                 modifier = Modifier.padding(paddingValues),
             ) {
-                items(sortedTasks) { task ->
+                items(filteredTasks) { task ->
                     Column(
                         Modifier
                             .fillMaxWidth()
